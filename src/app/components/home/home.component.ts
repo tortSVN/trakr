@@ -11,6 +11,10 @@ export class HomeComponent implements OnInit {
   constructor(private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
+    this.breadcrumbService.setItems([
+      { label: 'Dashboard' },
+      { label: 'Dashboard', routerLink: ['/home'] }
+    ]);
     this.data = {
       labels: ['To-Do','In-Progress','Complete'],
       datasets: [

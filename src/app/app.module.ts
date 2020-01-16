@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { AppRoutes } from './app.routes';
 
 import { AccordionModule } from 'primeng/accordion';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -82,11 +81,17 @@ import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProjectComponent } from './components/project/project.component';
 
+import { AngularFireModule } from 'angularfire2';
+import { environment } from '../environments/environment';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AuthService } from './auth.service';
+import { LoginComponent } from './components/login/login.component';
+import { AppRoutingModule } from './app-routing.module';
+
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
-        AppRoutes,
         HttpClientModule,
         BrowserAnimationsModule,
         AccordionModule,
@@ -154,7 +159,11 @@ import { ProjectComponent } from './components/project/project.component';
         TooltipModule,
         TreeModule,
         TreeTableModule,
-        VirtualScrollerModule
+        VirtualScrollerModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        AppRoutingModule
+
     ],
     declarations: [
         AppComponent,
@@ -164,11 +173,13 @@ import { ProjectComponent } from './components/project/project.component';
         AppTopBarComponent,
         HomeComponent,
         ProfileComponent,
-        ProjectComponent
+        ProjectComponent,
+        LoginComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
-        BreadcrumbService
+        BreadcrumbService,
+        AuthService
     ],
     bootstrap: [AppComponent]
 })

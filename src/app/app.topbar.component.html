@@ -9,13 +9,21 @@
     </a>
 
     <ul class="layout-topbar-menu" role="menu">
-        <!-- <li #settings class="layout-topbar-item" [ngClass]="{'active-topmenuitem':app.activeTopbarItem === settings}">
+        <li #profile class="user-profile" role="menuitem" [ngClass]="{'active-topmenuitem':app.activeTopbarItem === profile}">
+            <a *ngIf="(authService.user | async) as profile" (click)="app.onTopbarItemClick($event,profile)">
+                <div class="user-profile-info profile-link">
+                    <span class="user-profile-name">{{profile.email}}</span>
+                    <!-- <span class="user-profile-role">{{profile.displayName}}</span> -->
+                </div>
+            </a>
+        </li>
+        <li #settings class="layout-topbar-item" [ngClass]="{'active-topmenuitem':app.activeTopbarItem === settings}">
             <a href="#" class="layout-topbar-icon first" (click)="app.onTopbarItemClick($event,settings)">
                 <i class="topbar-icon pi pi-cog"></i>
             </a>
             <ul class="fadeInDown">
-                <li (click)="auth.login()" *ngIf="!auth.loggedIn">
-                    <a href="#" class="layout-topbar-icon">
+                <li *ngIf="!(authService.user | async)">
+                    <a class="layout-topbar-icon" [routerLink]="['login']">
                         <i class="topbar-icon pi pi-sign-out"></i>
                     </a>
                     <div class="layout-quickmenu-tooltip">
@@ -23,24 +31,15 @@
                         <div class="layout-quickmenu-tooltip-text">Login</div>
                     </div>
                 </li>
-                <li (click)="auth.logout()" *ngIf="auth.loggedIn">
+                <li (click)="authService.logout()" *ngIf="authService.user | async">
                     <a href="#" class="layout-topbar-icon">
                         <i class="topbar-icon pi pi-sign-out"></i>
                     </a>
                     <div class="layout-quickmenu-tooltip">
                         <div class="layout-quickmenu-tooltip-arrow"></div>
-                        <div class="layout-quickmenu-tooltip-text">Sign Out</div>
+                        <div class="layout-quickmenu-tooltip-text">Logout</div>
                     </div>
                 </li>
             </ul>
-            <li #profile class="user-profile" role="menuitem" [ngClass]="{'active-topmenuitem':app.activeTopbarItem === profile}">
-                <a *ngIf="auth.userProfile$ | async as profile" (click)="app.onTopbarItemClick($event,profile)">
-                    <div class="user-profile-info profile-link">
-                        <span class="user-profile-name">{{profile.nickname}}</span>
-                        <span class="user-profile-role">{{profile.name}}</span>
-                    </div>
-                    <img class="logo" src="{{profile.picture}}" alt="prestige-layout" />
-                </a>
-            </li> -->
     </ul>
 </div>
